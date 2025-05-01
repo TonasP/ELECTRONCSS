@@ -1,0 +1,49 @@
+.tarefa:hover {
+    background-color: rgb(32, 204, 98);
+}
+
+body {
+    background-color: rgba(9, 53, 119, 0.918);
+}
+
+.div1 {
+    position: relative;
+    top: 50px;
+    left: 887px;
+    width: 200px;
+    height: 100px;
+}
+
+.div1:hover {
+
+    border: 15px black;
+    margin-right: 50px;
+}
+
+#btn {
+    display: block;
+    transition: 0.35s;
+    border: 2px solid black;
+    text-align: center;
+    padding: 15px;
+    background-color: rgb(135, 161, 233);
+    color: rgb(4, 0, 255);
+    border-radius: 20px;
+}
+
+#btn:hover {
+    background-color: rgb(72, 234, 255);
+    color: rgb(22, 1, 138)
+}
+
+.tarefa {
+    transition: 0.35s;
+    display: block;
+    max-width: 250px;
+    margin: 5px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
