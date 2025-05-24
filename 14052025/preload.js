@@ -45,3 +45,11 @@ contextBridge.exposeInMainWorld('senacAPI',
 
 
 )
+function abrirAluno(){
+    ipcRenderer.send('abrir-aluno')
+}
+contextBridge.exposeInMainWorld('janelaAPI',
+    {
+        abrirAluno: abrirAluno,
+    }
+)

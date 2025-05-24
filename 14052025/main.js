@@ -1,7 +1,8 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { registrarAlunoHandler } = require('./alunoHandler');
-const {registrarProfHandler} = require ('./profHandler')
+const {registrarProfHandler} = require ('./profhandler');
+const {registrarJanelas} = require('./janela_ipcMain');
 if (process.env.NODE_ENV !== 'production') {
   try {
     require('electron-reload')(__dirname, {
@@ -21,13 +22,15 @@ function createMainWindow() {
         }
     });
 
-    mainWindow.loadFile('prof.html');
+    mainWindow.loadFile('index.html');
 }
 
 app.whenReady().then(function () {
 
     createMainWindow();
     registrarProfHandler();
+    registrarAlunoHandler()
+    registrarJanelas()
 
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) {
