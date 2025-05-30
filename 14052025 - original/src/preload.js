@@ -28,6 +28,35 @@ function alterarProf(profNome, profMatricula, profID) {
 function salvarProf(profNome, profMatricula) {
     return ipcRenderer.invoke('salvar-prof', profNome, profMatricula)
 }
+function buscarCurso() {
+    return ipcRenderer.invoke('buscar-curso');
+}
+
+function excluirCurso(cursoID) {
+    return ipcRenderer.invoke('deletar-curso', cursoID);
+
+}
+function alterarCurso(cursoNome, cursoDescricao, cursoID) {
+    return ipcRenderer.invoke('alterar-curso', cursoNome, cursoDescricao, cursoID);
+}
+function salvarCurso(cursoNome, cursoDescricao) {
+    return ipcRenderer.invoke('salvar-curso', cursoNome, cursoDescricao)
+}
+function buscarMateria() {
+    return ipcRenderer.invoke('buscar-materia');
+}
+
+function excluirMateria(materiaID) {
+    return ipcRenderer.invoke('deletar-materia', materiaID);
+
+}
+function alterarMateria(materiaNome, materiaDescricao,materiaCursoId, materiaID) {
+    return ipcRenderer.invoke('alterar-materia', materiaNome, materiaDescricao, materiaCursoId, materiaID);
+}
+function salvarMateria(materiaNome, materiaDescricao, materiaCursoId) {
+    return ipcRenderer.invoke('salvar-materia', materiaNome, materiaDescricao, materiaCursoId)
+}
+
 
 contextBridge.exposeInMainWorld('senacAPI',
 
@@ -40,6 +69,14 @@ contextBridge.exposeInMainWorld('senacAPI',
         excluirProf: excluirProf,
         alterarProf: alterarProf,
         salvarProf: salvarProf,
+        buscarCurso: buscarCurso,
+        excluirCurso: excluirCurso,
+        alterarCurso: alterarCurso,
+        salvarCurso: salvarCurso,
+        buscarMateria: buscarMateria,
+        excluirMateria: excluirMateria,
+        alterarMateria: alterarMateria,
+        salvarMateria: salvarMateria,
 
     }
 
@@ -51,9 +88,17 @@ function abrirAluno(){
 function abrirProfessor(){
     ipcRenderer.send('abrir-professor')
 }
+function abrirMateria(){
+    ipcRenderer.send('abrir-materia')
+}
+function abrirMateria(){
+    ipcRenderer.send('abrir-materia')
+}
 contextBridge.exposeInMainWorld('janelaAPI',
     {
         abrirAluno: abrirAluno,
         abrirProfessor:abrirProfessor,
+        abrirMateria: abrirMateria,
+        abrirMateria:abrirMateria
     }
 )

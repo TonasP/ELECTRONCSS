@@ -37,10 +37,30 @@ function modalAbrirAluno(){
         console.warn("Não foi possivel abrir a modal : Janela Principal")
     }
 }
+function modalAbrirCurso(){
+    let mainWindow= getJanelaPrincipal();
+    if (mainWindow){
+        criarJanelaModal(mainWindow, './src/curso/curso.html')
+    }
+    else{
+        console.warn("Não foi possivel abrir a modal : Janela Principal")
+    }
+}
+function modalAbrirMateria(){
+    let mainWindow= getJanelaPrincipal();
+    if (mainWindow){
+        criarJanelaModal(mainWindow, './src/materia/materia.html')
+    }
+    else{
+        console.warn("Não foi possivel abrir a modal : Janela Principal")
+    }
+}
 
 module.exports={
     criarJanelaModal,
     modalAbrirProfessor,
-    modalAbrirAluno
+    modalAbrirAluno,
+    modalAbrirCurso,
+    modalAbrirMateria
     
 }
