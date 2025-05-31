@@ -77,6 +77,7 @@ contextBridge.exposeInMainWorld('senacAPI',
         excluirMateria: excluirMateria,
         alterarMateria: alterarMateria,
         salvarMateria: salvarMateria,
+        
 
     }
 

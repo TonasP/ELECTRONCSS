@@ -20,29 +20,30 @@ function mostrarDetalhes(nome, descricao, id, idcurso) {
     modalIDmateria.value = id;
     modaldescricaomateria.value = descricao;
     modalNomemateria.value = nome
-    modalCursoMateriaID.value= idcurso;
+    modalCursoMateriaID.value = idcurso;
 }
 function limparDados() {
-    mostrarDetalhes('', '', '','')
+    mostrarDetalhes('', '', '', '')
 
 }
 async function funcaoSalvar() {
     materiaNome = modalNomemateria.value
     materiadescricao = modaldescricaomateria.value
+    materiaCursoId = modalCursoMateriaID.value
     if (modalIDmateria.value === '') {
         if (materiaNome === '' || materiadescricao === '') {
             return
         }
-        await window.senacAPI.salvarMateria(materiaNome, materiadescricao)
+        await window.senacAPI.salvarMateria(materiaNome, materiadescricao, materiaCursoId)
         carregarmaterias();
-        mostrarDetalhes('', '', '','')
+        mostrarDetalhes('', '', '', '')
         return
     }
     else {
 
         await alterarmateria()
         carregarmaterias();
-        mostrarDetalhes('', '', '','')
+        mostrarDetalhes('', '', '', '')
         return
 
     }
@@ -53,14 +54,14 @@ async function alterarmateria() {
     const pID = modalIDmateria.value;
     const pNome = modalNomemateria.value;
     const pdescricao = modaldescricaomateria.value;
-    const pcursoID= modalCursoMateriaID.value
+    const pcursoID = modalCursoMateriaID.value
 
 
 
     const retorno = await window.senacAPI.alterarMateria(pNome, pdescricao, pID, pcursoID);
 
     carregarmaterias();
-    mostrarDetalhes("", "", "",'');
+    mostrarDetalhes("", "", "", '');
 }
 
 async function excluirmateria() {
@@ -73,26 +74,25 @@ async function excluirmateria() {
     //após deleção atualiza a lista de materias
 
     carregarmaterias();
-    mostrarDetalhes('', '', '','')
+    mostrarDetalhes('', '', '', '')
 }
 
 
 async function carregarmaterias() {
-
-
     const listamaterias = await window.senacAPI.buscarMateria();
+    
     tabelamateria.innerHTML = "";
 
-    console.log(listamaterias)
     listamaterias.forEach(criarLinhamateria)
 
     if (!listamaterias.length > 0) {
-
-        tabelamateria.textContent = "sem dados"
+        tabelamateria.textContent = "sem dados";
     }
 
-    lucide.createIcons(); // renderiza os ícones do Lucide
+    // Atualiza o dropdown com os idcurso únicos
+    atualizarDropdownComIdCurso();
 
+    lucide.createIcons(); // renderiza os ícones do Lucide
 }
 
 function criarLinhamateria(materia) {
@@ -112,7 +112,7 @@ function criarLinhamateria(materia) {
     linha.appendChild(celuladescricao);
     //id do curso
     const celulaCursoId = document.createElement("td");
-    celuladescricao.textContent = materia.idcurso;
+    celulaCursoId.textContent = materia.idcurso;
     linha.appendChild(celulaCursoId);
 
     //botao de modificar
@@ -142,4 +142,31 @@ function criarLinhamateria(materia) {
     tabelamateria.appendChild(linha);
 
 }
+function criarDropDown(cursos) {
+    const dropdown = document.getElementById("materia-curso-id");
+    dropdown.innerHTML = ""; // limpa o dropdown antes de adicionar
+
+    cursos.forEach(curso => {
+        const option = document.createElement("option");
+        option.value = curso.id;
+        option.textContent = `${curso.id}  ${curso.nome}`;
+        dropdown.appendChild(option);
+    });
+}
+async function atualizarDropdownComIdCurso() {
+    const dropdown = document.getElementById("materia-curso-id");
+    dropdown.innerHTML = ""; // limpa antes
+
+    idsUnicos = await window.senacAPI.buscarCurso()
+
+    idsUnicos.forEach(id => {
+        const option = document.createElement("option");
+        option.value = id;
+        option.textContent = `Curso ID ${id}`;
+        dropdown.appendChild(option);
+    });
+}
+
+
+
 carregarmaterias()

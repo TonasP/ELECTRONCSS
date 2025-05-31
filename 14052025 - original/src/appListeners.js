@@ -53,6 +53,7 @@ function registrarMateriaHandler(){
     ipcMain.handle('deletar-materia', deletarmateria)
     ipcMain.handle('alterar-materia', alterarmateria)
     ipcMain.handle('salvar-materia', salvarmateria)
+    
 }
 function registrarJanelas() {
     ipcMain.on('abrir-aluno', modalAbrirAluno)
