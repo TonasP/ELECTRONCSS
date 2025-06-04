@@ -18,15 +18,21 @@ const {
     salvarcurso,
 } = require('./curso/cursoDB')
 const {
-     buscarmateria,
+    buscarmateria,
     deletarmateria,
     alterarmateria,
     salvarmateria,
-} = require ('./materia/materiaDB')
+} = require('./materia/materiaDB')
 const { modalAbrirProfessor } = require('./janelaModal');
 const { modalAbrirAluno } = require('./janelaModal')
 const { modalAbrirCurso } = require('./janelaModal')
-const {modalAbrirMateria }= require('./janelaModal')
+const { modalAbrirMateria } = require('./janelaModal');
+const {modalAbrirNota } = require ('./janelaModal')
+const { buscarnota,
+    deletarnota,
+    alterarnota,
+    salvarnota
+} = require('./notas/notaDB');
 
 
 function registrarAlunoHandler() {
@@ -48,25 +54,34 @@ function registrarCursoHandler() {
     ipcMain.handle('alterar-curso', alterarcurso)
     ipcMain.handle('salvar-curso', salvarcurso)
 }
-function registrarMateriaHandler(){
+function registrarMateriaHandler() {
     ipcMain.handle('buscar-materia', buscarmateria)
     ipcMain.handle('deletar-materia', deletarmateria)
     ipcMain.handle('alterar-materia', alterarmateria)
     ipcMain.handle('salvar-materia', salvarmateria)
-    
+
+}
+function registrarNotaHandler() {
+    ipcMain.handle('buscar-nota', buscarnota)
+    ipcMain.handle('deletar-nota', deletarnota)
+    ipcMain.handle('alterar-nota', alterarnota)
+    ipcMain.handle('salvar-nota', salvarnota)
+
 }
 function registrarJanelas() {
     ipcMain.on('abrir-aluno', modalAbrirAluno)
     ipcMain.on('abrir-professor', modalAbrirProfessor)
     ipcMain.on('abrir-curso', modalAbrirCurso)
     ipcMain.on('abrir-materia', modalAbrirMateria)
+    ipcMain.on('abrir-nota',modalAbrirNota)
 }
 function registrarListeners() {
-    registrarCursoHandler(),
+        registrarCursoHandler(),
         registrarAlunoHandler(),
         registrarProfHandler(),
         registrarJanelas(),
-        registrarMateriaHandler()
+        registrarMateriaHandler(),
+        registrarNotaHandler()
 }
 module.exports = {
     registrarListeners

@@ -1,22 +1,22 @@
 const paragrafo = document.getElementById('teste');
-const tabelamateria = document.getElementById('materiasTableDados');
-const modalNomemateria = document.getElementById('materia-nome');
-const modaldescricaomateria = document.getElementById('materia-descricao');
-const modalIDmateria = document.getElementById('materia-id');
-const modalCursoMateriaID = document.getElementById('materia-curso-id');
+const tabelanota = document.getElementById('notasTableDados');
+const modalNomenota = document.getElementById('nota-nome');
+const modaldescricaonota = document.getElementById('nota-descricao');
+const modalIDnota = document.getElementById('nota-id');
+const modalCursoNotaID = document.getElementById('nota-curso-id');
 const botaoExcluir = document.getElementById('btn-excluir');
 const botaoSalvar = document.getElementById('btn-salvar');
 const botaoIncluir = document.getElementById('btn-incluir');
 
 botaoIncluir.addEventListener('click', limparDados);
 botaoSalvar.addEventListener('click', funcaoSalvar);
-botaoExcluir.addEventListener('click', excluirmateria);
+botaoExcluir.addEventListener('click', excluirnota);
 
 function mostrarDetalhes(nome, descricao, id, idcurso) {
-    modalIDmateria.value = id;
-    modaldescricaomateria.value = descricao;
-    modalNomemateria.value = nome;
-    modalCursoMateriaID.value = (typeof idcurso === 'object') ? String(idcurso.id) : String(idcurso);
+    modalIDnota.value = id;
+    modaldescricaonota.value = descricao;
+    modalNomenota.value = nome;
+    modalCursoNotaID.value = (typeof idcurso === 'object') ? String(idcurso.id) : String(idcurso);
 
 }
 
@@ -25,79 +25,79 @@ function limparDados() {
 }
 
 async function funcaoSalvar() {
-    const materiaNome = modalNomemateria.value;
-    const materiadescricao = modaldescricaomateria.value;
-    const materiaCursoId = modalCursoMateriaID.value;
+    const notaNome = modalNomenota.value;
+    const notadescricao = modaldescricaonota.value;
+    const notaCursoId = modalCursoNotaID.value;
 
-    if (modalIDmateria.value === '') {
-        if (materiaNome === '' || materiadescricao === '') {
+    if (modalIDnota.value === '') {
+        if (notaNome === '' || notadescricao === '') {
             return;
         }
-        await window.senacAPI.salvarMateria(materiaNome, materiadescricao, materiaCursoId);
-        carregarmaterias();
+        await window.senacAPI.salvarNota(notaNome, notadescricao, notaCursoId);
+        carregarnotas();
         mostrarDetalhes('', '', '', '');
         return;
     } else {
-        await alterarmateria();
+        await alterarnota();
         mostrarDetalhes('', '', '', '');
         return;
     }
 }
 
-async function alterarmateria() {
-    const pID = modalIDmateria.value;
-    const pNome = modalNomemateria.value;
-    const pdescricao = modaldescricaomateria.value;
-    const pcursoID = modalCursoMateriaID.value;
+async function alterarnota() {
+    const pID = modalIDnota.value;
+    const pNome = modalNomenota.value;
+    const pdescricao = modaldescricaonota.value;
+    const pcursoID = modalCursoNotaID.value;
 
-    await window.senacAPI.alterarMateria(pNome, pdescricao, pcursoID, pID );
-    carregarmaterias();
+    await window.senacAPI.alterarNota(pNome, pdescricao, pcursoID, pID );
+    carregarnotas();
     mostrarDetalhes("", "", "", '');
 }
 
-async function excluirmateria() {
-    const pID = modalIDmateria.value;
-    await window.senacAPI.excluirMateria(pID);
-    carregarmaterias();
+async function excluirnota() {
+    const pID = modalIDnota.value;
+    await window.senacAPI.excluirNota(pID);
+    carregarnotas();
     mostrarDetalhes('', '', '', '');
 }
 
-async function carregarmaterias() {
-    const listamaterias = await window.senacAPI.buscarMateria();
+async function carregarnotas() {
+    const listanotas = await window.senacAPI.buscarNota();
     
-    tabelamateria.innerHTML = "";
+    tabelanota.innerHTML = "";
 
-    listamaterias.forEach(criarLinhamateria);
+    listanotas.forEach(criarLinhanota);
 
-    if (listamaterias.length === 0) {
-        tabelamateria.textContent = "sem dados";
+    if (listanotas.length === 0) {
+        tabelanota.textContent = "sem dados";
     }
 
     atualizarDropdownComIdCurso();
     lucide.createIcons(); // renderiza os ícones do Lucide
 }
 
-function criarLinhamateria(materia) {
+function criarLinhanota(nota) {
     const linha = document.createElement("tr");
 
     const celulanome = document.createElement("td");
-    celulanome.textContent = materia.nome;
+    celulanome.textContent = nota.nome;
     linha.appendChild(celulanome);
 
     const celuladescricao = document.createElement("td");
-    celuladescricao.textContent = materia.descricao;
+    celuladescricao.textContent = nota.descricao;
     linha.appendChild(celuladescricao);
 
     const celulaCursoId = document.createElement("td");
-    celulaCursoId.textContent = typeof materia.idcurso === 'object'
-        ? `${materia.idcurso.id} - ${materia.idcurso.nome}`
-        : materia.idcurso;
+    celulaCursoId.textContent = typeof nota.idcurso === 'object'
+        ? `${nota.idcurso.id} - ${nota.idcurso.nome}`
+        : nota.idcurso;
     linha.appendChild(celulaCursoId);
 
     const celulaBotao = document.createElement("td");
     const botao = document.createElement("button");
     botao.addEventListener("click", function () {
-        mostrarDetalhes(materia.nome, materia.descricao, materia.id, materia.idcurso);
+        mostrarDetalhes(nota.nome, nota.descricao, nota.id, nota.idcurso);
     });
 
     const icone = document.createElement("i");
@@ -107,7 +107,7 @@ function criarLinhamateria(materia) {
     celulaBotao.appendChild(botao);
     linha.appendChild(celulaBotao);
 
-    tabelamateria.appendChild(linha);
+    tabelanota.appendChild(linha);
 
     // Atualiza os ícones dos botões principais
     const iconeIncluir = document.getElementById('iIncluir');
@@ -119,7 +119,7 @@ function criarLinhamateria(materia) {
 }
 
 function criarDropDown(cursos) {
-    const dropdown = document.getElementById("materia-curso-id");
+    const dropdown = document.getElementById("nota-curso-id");
     dropdown.innerHTML = ""; // limpa o dropdown antes de adicionar
 
     cursos.forEach(curso => {
@@ -131,7 +131,7 @@ function criarDropDown(cursos) {
 }
 
 async function atualizarDropdownComIdCurso() {
-    const dropdown = document.getElementById("materia-curso-id");
+    const dropdown = document.getElementById("nota-curso-id");
     dropdown.innerHTML = "";
 
     const cursos = await window.senacAPI.buscarCurso();
@@ -144,4 +144,4 @@ async function atualizarDropdownComIdCurso() {
     });
 }
 
-carregarmaterias();
+carregarnotas();

@@ -55,12 +55,21 @@ function modalAbrirMateria(){
         console.warn("Não foi possivel abrir a modal : Janela Principal")
     }
 }
+function modalAbrirNota(){
+     let mainWindow= getJanelaPrincipal();
+    if (mainWindow){
+        criarJanelaModal(mainWindow, './src/notas/nota.html')
+    }
+    else{
+        console.warn("Não foi possivel abrir a modal : Janela Principal")
+    }
+}
 
 module.exports={
     criarJanelaModal,
     modalAbrirProfessor,
     modalAbrirAluno,
     modalAbrirCurso,
-    modalAbrirMateria
-    
+    modalAbrirMateria,
+    modalAbrirNota  
 }
