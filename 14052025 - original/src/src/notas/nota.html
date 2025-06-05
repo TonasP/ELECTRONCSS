@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href ='nota.css' type="text/css" rel = "stylesheet">
+    <title>Lista de Notas</title>
+
+     <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+<body>
+    
+    <table id="notaTable">
+        <thead>
+            <tr>
+                
+                <button id='btn-incluir'>
+                    <icon id="iIncluir"></icon>
+                </button>
+                <th>Aluno</th>
+                <th>Matéria</th> 
+                <th>Professor</th>             
+                <th>Avaliação</th>             
+            </tr>
+        </thead>
+        <tbody id="notasTableDados">    
+        </tbody>
+    </table>
+
+
+    <!--modal-->
+    <div id="modal" >
+        <h3>Edite os dados do Nota:</h3>
+        <label>ID: <input type="text" id="nota-id" readonly /> 
+        </label>
+        <br>
+        <label>Aluno: </label> 
+        <select id="aluno-nome" name = 'Selecione o Aluno'>       
+         <br>
+        <label>Matéria:</label> 
+        <select id="materia-nome" name = "Selecione a matéria"></select>
+        <br>
+        <label>Professor</label> 
+        <select id="professor-nome" name="Selecione o Professor"></select>
+        <br>
+        <label>Avaliação</label>
+        <select id ='avaliacao' name="Selecione a Avaliação do Aluno"></select>
+        <br>
+        <button id="btn-salvar">
+            <icon id ='iSalvar'></icon>
+        </button>
+        <button id="btn-excluir">
+            <icon id ='iExcluir'></icon>
+        </button>
+    </div>
+
+
+    <script src="nota.js"></script>
+</body>
+</html>
