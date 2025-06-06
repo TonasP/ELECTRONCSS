@@ -1,0 +1,103 @@
+body {
+    background-color: #1d2466;
+    color: #e0e0e0;
+    font-family: 'Helvetica Neue', sans-serif;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #333;
+    text-align: left;
+}
+
+th {
+    background-color: #16142c;
+    color: #ffffff;
+}
+
+td {
+    background-color: #16142c;
+}
+
+tr:hover td {
+    transition: 0.2s;
+    transform: scale(1.02);
+    background-color: #05042b;
+}
+
+button {
+    background-color: #f8a546;
+    color: black;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+button:hover {
+    background-color: #ff8800;
+    transition: 0.2s;
+    transform: scale(1.05);
+}
+
+#btn-incluir {
+    margin-bottom: 16px;
+}
+
+#modal {
+    background-color: #16142c;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    max-width: 400px;
+}
+
+#modal label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+#modal input[type="text"],
+#modal select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border-radius: 6px;
+    border: none;
+    background-color: #2a2a4c;
+    color: #fff;
+}
+
+#btn-excluir {
+    margin-left: 12px;
+    background-color: #e74c3c;
+    color: white;
+}
+
+#btn-excluir:hover {
+    background-color: #c0392b;
+}
+
+i {
+    vertical-align: middle;
+}
+
+/* ícones no botão */
+button i {
+    width: 18px;
+    height: 18px;
+}

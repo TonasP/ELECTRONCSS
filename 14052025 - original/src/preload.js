@@ -58,11 +58,11 @@ function buscarNota() {
 function excluirNota(notaID) {
     return ipcRenderer.invoke('deletar-nota', notaID);
 }
-function alterarNota(notaProf, notaAluno, notaMateria, notaId) {
-    return ipcRenderer.invoke('alterar-nota', notaProf, notaAluno, notaMateria, notaId);
+function alterarNota(notaAlunoId, notaProfId,  notaMateriaId, avaliacao ,notaId) {
+    return ipcRenderer.invoke('alterar-nota', notaAlunoId, notaProfId,  notaMateriaId, avaliacao ,notaId);
 }
-function salvarNota(notaProf, notaAluno, notaMateria) {
-    return ipcRenderer.invoke('salvar-nota', notaProf, notaAluno, notaMateria)
+function salvarNota(notaProfId, notaAlunoId, notaMateriaId, notaAvaliacao) {
+    return ipcRenderer.invoke('salvar-nota', notaProfId, notaAlunoId, notaMateriaId, notaAvaliacao)
 }
 //--------------------------------------------------//   
 
