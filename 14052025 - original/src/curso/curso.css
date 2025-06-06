@@ -1,0 +1,80 @@
+body {
+    background-color: #1d2466;
+    color: #e0e0e0;
+    font-family: 'Helvetica Neue', sans-serif;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #333;
+}
+
+th {
+    background-color: #16142c;
+    color: #ffffff;
+}
+
+td {
+    background-color: #16142c;
+}
+
+tr:hover td {
+    transition: 0.2s ease ;
+    transform: scale(1.05);
+    background-color: #05042b;
+ 
+    
+}
+
+button {
+    background-color: #f8a546;
+    color: black;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff8800;
+    transition: 0.2s ;
+    transform: scale(1.05);
+}
+
+#modal {
+    background-color: #16142c;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: 1px solid #333;
+}
+#curso-id, #curso-nome, #curso-descricao{
+    display:grid;
+    border-radius: 10px;
+    cursor:text
+    
+}
+#btn-incluir{
+    background-color: #f8a546;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+#btn-incluir:hover{
+      background-color:  #ff8800;
+    transition: 0.2s ;
+    transform: scale(1.05);
+}
+#btn-excluir{
+    margin-left:40px
+}
+
