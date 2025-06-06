@@ -8,7 +8,7 @@ async function buscarcurso() {
 
 }
 
-async function deletarcurso(cursoId){    
+async function deletarcurso(event,cursoId){    
     const resultado = await db.query('DELETE FROM cursos WHERE id = $1',[cursoId]);
     return resultado.rows;
 

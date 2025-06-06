@@ -91,7 +91,7 @@ function criarLinhamateria(materia) {
     const celulaCursoId = document.createElement("td");
     celulaCursoId.textContent = typeof materia.idcurso === 'object'
         ? `${materia.idcurso.id} - ${materia.idcurso.nome}`
-        : materia.idcurso;
+        : materia.cursonome;
     linha.appendChild(celulaCursoId);
 
     const celulaBotao = document.createElement("td");

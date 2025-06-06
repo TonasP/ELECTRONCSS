@@ -61,7 +61,7 @@ async function alterarAluno() {
 }
 
 async function excluirAluno() {
-    const pID = modalIDProf.value;
+    const pID = modalIDAluno.value;
 
 
     const retorno = await window.senacAPI.excluirAlunos(pID);
