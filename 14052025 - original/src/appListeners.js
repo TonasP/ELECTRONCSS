@@ -29,6 +29,7 @@ const { modalAbrirCurso } = require('./janelaModal')
 const { modalAbrirMateria } = require('./janelaModal');
 const {modalAbrirNota } = require ('./janelaModal')
 const { buscarnota,
+    filtrarnota,
     deletarnota,
     alterarnota,
     salvarnota
@@ -66,6 +67,7 @@ function registrarNotaHandler() {
     ipcMain.handle('deletar-nota', deletarnota)
     ipcMain.handle('alterar-nota', alterarnota)
     ipcMain.handle('salvar-nota', salvarnota)
+    ipcMain.handle('filtrar-nota', filtrarnota)
 
 }
 function registrarJanelas() {

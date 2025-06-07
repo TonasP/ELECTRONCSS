@@ -98,6 +98,51 @@ i {
 
 /* ícones no botão */
 button i {
+    width: 10px;
+    height: 10px;
+}
+
+#btn-incluir, #btn-limparFiltro{
+    margin-left: 10px;
+}
+#filtro {
+    margin: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+     border: none;
+    background-color: #2a2a4c;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    min-width: 160px;
+}
+
+#filtro:focus {
+    outline: 2px solid #f8a546;
+}
+
+#avaliacao{
+    margin-bottom: 10px;
+}
+/* Estiliza corretamente os ícones nos botões */
+icon,
+icon i {
+    display: inline-block;
     width: 18px;
     height: 18px;
+    vertical-align: middle;
+}
+.reprovado {
+    
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    border-radius: 50px;
+    
+}
+.aprovado {
+    width: 40px;
+    height: 40px;
+    background-color: green;
+    border-radius: 50px;
 }

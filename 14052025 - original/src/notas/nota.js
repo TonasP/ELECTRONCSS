@@ -3,12 +3,18 @@ const modalIDnota = document.getElementById('nota-id');
 const botaoExcluir = document.getElementById('btn-excluir');
 const botaoSalvar = document.getElementById('btn-salvar');
 const botaoIncluir = document.getElementById('btn-incluir');
+const botaoFiltrar = document.getElementById('btnFiltro')
+const botaoLimparFiltro = document.getElementById("btn-limparFiltro")
 
 const dropdownAluno = document.getElementById('aluno-nome');
 const dropdownProfessor = document.getElementById('professor-nome');
 const dropdownMateria = document.getElementById('materia-nome');
 const dropdownAvaliacao = document.getElementById('avaliacao');
+const dropDownFiltro = document.getElementById('filtro')
 
+botaoFiltrar.addEventListener('click',filtrarNotas)
+botaoLimparFiltro.addEventListener('click',limparFiltro)
+botaoLimparFiltro.addEventListener('click', filtrarNotas)
 botaoIncluir.addEventListener('click', limparDados);
 botaoSalvar.addEventListener('click', funcaoSalvar);
 botaoExcluir.addEventListener('click', excluirnota);
@@ -23,6 +29,9 @@ function mostrarDetalhes(alunoId, professorId, notaId, avaliacao, materiaId) {
 
 function limparDados() {
     mostrarDetalhes('', '', '', '', '');
+}
+function limparFiltro(){
+    dropDownFiltro.value = 0
 }
 
 async function funcaoSalvar() {
@@ -52,8 +61,31 @@ async function excluirnota() {
         limparDados();
     }
 }
-
+async function filtrarNotas() {
+    const filtro = dropDownFiltro.value; // obtém o valor já selecionado
+    // Se a opção "Todas as Matérias" for selecionada (valor "0")
+    if (filtro === '0' || filtro === 0) {
+        await carregarnotas();
+        return; // sai da função para não continuar filtrando
+    }
+    const filtroMaterias = await window.senacAPI.filtrarNota(filtro);
+    tabelanota.innerHTML = '';
+    
+    if (!filtroMaterias || filtroMaterias.length === 0) {
+        const linha = document.createElement("tr");
+        const celula = document.createElement("td");
+        celula.textContent = "Sem dados";
+        linha.appendChild(celula);
+        tabelanota.appendChild(linha);
+    } else {
+        filtroMaterias.forEach(criarLinhanota);
+    }
+    lucide.createIcons();
+}
 async function carregarnotas() {
+    if (dropDownFiltro.value=0){
+        filtrarNotas(filtro)
+    }
     const listanotas = await window.senacAPI.buscarNota();
     tabelanota.innerHTML = "";
 
@@ -72,6 +104,16 @@ async function carregarnotas() {
 
 function criarLinhanota(nota) {
     const linha = document.createElement("tr");
+    const celulaIconeAvaliacao = document.createElement("td")
+    if (nota.avaliacao ==='Aprovado'){
+    celulaIconeAvaliacao.innerHTML='<i data-lucide = "smile" class= "aprovado"></i>'
+    linha.appendChild(celulaIconeAvaliacao)
+}
+    else{
+    celulaIconeAvaliacao.innerHTML='<i data-lucide ="frown" class="reprovado"></i>'
+    linha.appendChild(celulaIconeAvaliacao)    
+    }
+    
 
     const celulaAluno = document.createElement("td");
     celulaAluno.textContent = nota.aluno;
@@ -96,15 +138,20 @@ function criarLinhanota(nota) {
         mostrarDetalhes(nota.aluno_id, nota.professor_id, nota.id, nota.avaliacao, nota.materia_id);
     });
     
-   
+   const iconeIncluir = document.getElementById('iIncluir');
+if (iconeIncluir) iconeIncluir.setAttribute('data-lucide', 'plus');
 
-    const iconeIncluir = document.getElementById('iIncluir')
-    iconeIncluir.setAttribute('data-lucide', 'plus')
-    const iconeSalvar = document.getElementById('iSalvar')
-    iconeSalvar.setAttribute('data-lucide', 'save-all')
-    const iconeExcluir = document.getElementById('iExcluir')
-    iconeExcluir.setAttribute('data-lucide', 'trash2')
+const iconeSalvar = document.getElementById('iSalvar');
+if (iconeSalvar) iconeSalvar.setAttribute('data-lucide', 'save-all');
 
+const iconeExcluir = document.getElementById('iExcluir');
+if (iconeExcluir) iconeExcluir.setAttribute('data-lucide', 'trash2');
+
+const iconeFiltrar = document.getElementById('IFiltrar');
+if (iconeFiltrar) iconeFiltrar.setAttribute('data-lucide', 'list-filter');
+
+const iconeLimparFiltro = document.getElementById('IlimparFiltro');
+if (iconeLimparFiltro) iconeLimparFiltro.setAttribute('data-lucide', 'refresh-ccw');
     celulaBotao.appendChild(botao);
     linha.appendChild(celulaBotao);
 
@@ -158,14 +205,33 @@ function preencherDropdownAvaliacao() {
         dropdownAvaliacao.appendChild(option);
     });
 }
+async function dropDownfiltrarMateria(){
+    const materias = await window.senacAPI.buscarMateria()
+    dropDownFiltro.innerHTML =''
+
+    const todasAsOpcoes = document.createElement('option')
+    todasAsOpcoes.value = 0
+    todasAsOpcoes.textContent ="Todas as Matérias"
+
+    dropDownFiltro.appendChild(todasAsOpcoes)
+    materias.forEach(materia =>{
+        const option = document.createElement("option")
+        option.value= materia.id
+        option.textContent= materia.nome
+        dropDownFiltro.appendChild(option)
+    })
+}
 
 async function preencherDropdowns() {
     await preencherDropdownAlunos();
     await preencherDropdownProfessores();
     await preencherDropdownMaterias();
-    preencherDropdownAvaliacao();
+    await preencherDropdownAvaliacao();
+    await dropDownfiltrarMateria()
 }
 
 // Inicializar
 preencherDropdowns();
 carregarnotas();
+
+

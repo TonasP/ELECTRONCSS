@@ -18,6 +18,27 @@ async function buscarnota() {
     `);
     return resultado.rows;
 }
+async function filtrarnota(event,filtro) {
+  event =''  
+  const resultado = await db.query(`
+        SELECT 
+            notas.id as id,
+            alunos.id as aluno_id,
+            alunos.nome as aluno,
+            professores.id as professor_id,
+            professores.nome as professor,
+            materias.id as materia_id,
+            materias.nome as materia,
+            notas.avaliacao
+        FROM notas 
+        JOIN professores ON professores.id = notas.id_professor 
+        JOIN alunos ON alunos.id = notas.id_aluno 
+        JOIN materias ON materias.id = notas.id_materia
+        where notas.id_materia = $1`, [filtro]
+    );
+    return resultado.rows;
+}
+
 
 async function deletarnota(event,notaId){  
     event = ''  
@@ -49,6 +70,7 @@ async function salvarnota(event, notaProfId, notaAlunoId, notaMateriaId, notaAva
 
 module.exports = {
     buscarnota,
+    filtrarnota,
     deletarnota,
     alterarnota,
     salvarnota,

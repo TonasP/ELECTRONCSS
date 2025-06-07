@@ -55,6 +55,9 @@ function salvarMateria(materiaNome, materiaDescricao, materiaCursoId) {
 function buscarNota() {
     return ipcRenderer.invoke('buscar-nota');
 }
+function filtrarNota(filtro){
+    return ipcRenderer.invoke('filtrar-nota', filtro)
+}
 function excluirNota(notaID) {
     return ipcRenderer.invoke('deletar-nota', notaID);
 }
@@ -91,6 +94,7 @@ contextBridge.exposeInMainWorld('senacAPI',
         salvarMateria: salvarMateria,
 //--------------------------------------------------//        
         buscarNota:buscarNota,
+        filtrarNota: filtrarNota,
         excluirNota:excluirNota,
         alterarNota: alterarNota,
         salvarNota:salvarNota,
