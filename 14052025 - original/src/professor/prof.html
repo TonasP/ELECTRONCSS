@@ -3,49 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href ='prof.css' type="text/css" rel = "stylesheet">
+    <link href="prof.css" type="text/css" rel="stylesheet">
     <title>Lista de Professores</title>
-
-     <script src="https://unpkg.com/lucide@latest"></script>
-
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    
+
+    <!-- Botão de inclusão fora do cabeçalho da tabela -->
+    <button id="btn-incluir">
+        <icon id="iIncluir"></icon>
+    </button>
+
     <table id="profTable">
         <thead>
             <tr>
-                <button id='btn-incluir'>
-                    <icon id="iIncluir"></icon>
-                </button>
                 <th>Nome</th>
-                <th>Cpf</th>              
+                <th>CPF</th>
             </tr>
         </thead>
         <tbody id="profTableDados">    
         </tbody>
     </table>
 
-
-    <!--modal-->
-    <div id="modal" >
+    <!-- Modal -->
+    <div id="modal">
         <h3>Edite os dados do Professor:</h3>
-        <label>ID: <input type="text" id="prof-id" readonly /> 
-        </label>
+        <label>ID: <input type="text" id="prof-id" readonly /></label>
         <br>
-        <label>Nome: <input type="text" id="prof-nome">       
-        </label>
-         <br>
-        <labe>CPF: <input type="text" id="prof-cpf">
-        </label>
+        <label>Nome: <input type="text" id="prof-nome"></label>
+        <br>
+        <label>CPF: <input type="text" id="prof-cpf"></label>
         <br>
         <button id="btn-salvar">
-            <icon id ='iSalvar'></icon>
+            <icon id="iSalvar"></icon>
         </button>
         <button id="btn-excluir">
-            <icon id ='iExcluir'></icon>
+            <icon id="iExcluir"></icon>
         </button>
     </div>
-
 
     <script src="prof.js"></script>
 </body>
