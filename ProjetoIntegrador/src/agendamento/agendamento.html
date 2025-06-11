@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='Agendamento.css' type="text/css" rel="stylesheet">
+    <title>Lista de Agendamentos</title>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+    <table id="AgendamentoTable">
+        <thead>
+            <tr>
+                <button id='btn-incluir'>
+                    <icon id="iIncluir"></icon>
+                </button>
+                <button id="btn-limparFiltro">
+                    <icon id="IlimparFiltro"></icon>
+                </button>
+                <select id= "filtro" name="Filtro">      
+                </select>
+                <button id="btnFiltro">
+                        <icon id='IFiltrar'></icon>
+                    </button>  
+                <i id="iAvaliacao"></i>    
+                <th></th>
+                <th>Cliente</th>
+                <th>Funcionário</th>
+                <th>Data Marcada</th>
+                <th>Tipo de Atendimento</th>
+            </tr>
+        </thead>
+        <tbody id="AgendamentosTableDados">
+        </tbody>
+    </table>
+
+
+    <!--modal-->
+    <div id="modal">
+        <h3>Edite os dados do Agendamento:</h3>
+        <label>ID: <input type="text" id="Agendamento-id" readonly />
+        </label>
+        <br>
+        <label for="aluno-nome">Aluno:</label>
+        <select id="aluno-nome" name="aluno">
+            
+        </select>
+        <br>
+        <label for="professor-nome">Professor:</label>
+        <select id="professor-nome" name="professor">
+    
+        </select>
+        <br>
+        <label for="materia-nome">Matéria:</label>
+        <select id="materia-nome" name="materia">
+           
+        </select>
+        <br>
+        <label for="avaliacao">Avaliação:</label>
+        <select id="avaliacao" placeholder="avaliacao">
+            <option value="Aprovado">Aprovado</option>
+            <option value="Reprovado">Reprovado</option>
+        </select>
+        <br>
+        <button id="btn-salvar">
+            <icon id='iSalvar'></icon>
+        </button>
+        <button id="btn-excluir">
+            <icon id='iExcluir'></icon>
+        </button>
+    </div>
+
+
+    <script src="agendamento.js"></script>
+</body>
+
+</html>
