@@ -2,65 +2,68 @@
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='Agendamento.css' type="text/css" rel="stylesheet">
     <title>Lista de Agendamentos</title>
-
     <script src="https://unpkg.com/lucide@latest"></script>
-
 </head>
 
 <body>
 
+    <!-- Container para os botões e filtro, acima da tabela -->
+    <div class="controls-container">
+        <button id='btn-incluir' title="Incluir Novo Agendamento">
+            <icon id="iIncluir"></icon>
+        </button>
+        <button id="btn-limparFiltro" title="Limpar Filtro">
+            <icon id="IlimparFiltro"></icon>
+        </button>
+        <select id="filtro" name="Filtro">
+            <!-- As opções serão preenchidas via JavaScript -->
+        </select>
+        <button id="btnFiltro" title="Aplicar Filtro">
+            <icon id='IFiltrar'></icon>
+        </button>
+    </div>
+
+    <!-- Tabela com estrutura limpa e cabeçalhos corretos -->
     <table id="AgendamentoTable">
         <thead>
             <tr>
-                <button id='btn-incluir'>
-                    <icon id="iIncluir"></icon>
-                </button>
-                <button id="btn-limparFiltro">
-                    <icon id="IlimparFiltro"></icon>
-                </button>
-                <select id= "filtro" name="Filtro">      
-                </select>
-                <button id="btnFiltro">
-                        <icon id='IFiltrar'></icon>
-                    </button>  
-                <i id="iAvaliacao"></i>    
-                <th></th>
                 <th>Cliente</th>
                 <th>Funcionário</th>
                 <th>Data Marcada</th>
                 <th>Tipo de Atendimento</th>
+                <th>Editar</th>
             </tr>
         </thead>
         <tbody id="AgendamentosTableDados">
+            <!-- As linhas da tabela serão preenchidas via JavaScript -->
         </tbody>
     </table>
 
 
-    <!--modal-->
+    <!-- Modal com a estrutura HTML corrigida para o campo de data -->
     <div id="modal">
         <h3>Edite os dados do Agendamento:</h3>
         <label>ID: <input type="text" id="Agendamento-id" readonly />
         </label>
         <br>
         <label for="cliente-nome">Cliente:</label>
-        <select id="cliente-nome" >
-            
+        <select id="cliente-nome">
+            <!-- As opções serão preenchidas via JavaScript -->
         </select>
         <br>
         <label for="funcionario-nome">Funcionário:</label>
         <select id="funcionario-nome">
-    
+            <!-- As opções serão preenchidas via JavaScript -->
         </select>
         <br>
-        <label for="data" >Data:</label>
-        <input id="data" type="date" >
-           
-    </input>
+        <label for="data">Data:</label>
+        <div class="date-input-wrapper">
+            <input id="data" type="date">
+        </div>
         <br>
         <label for="tipo">Tipo:</label>
         <select id="tipo" placeholder="Tipo">
@@ -78,7 +81,7 @@
         </button>
     </div>
 
-
+    <!-- Script JS -->
     <script src="agendamento.js"></script>
 </body>
 

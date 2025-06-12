@@ -24,7 +24,7 @@ function mostrarDetalhes(agendamento) {
     modalIDAgendamento.value = agendamento.id; 
     dropdownCliente.value = agendamento.cliente_id;
     dropdownFuncionario.value = agendamento.funcionario_id;
-    dropdownData.value = new Date(agendamento.data).toISOString().split('T')[0]; 
+    dropdownData.value = agendamento.data
     dropdownTipo.value = agendamento.tipo;
 }
 
@@ -89,15 +89,24 @@ async function carregarAgendamentos() {
 function criarLinhaAgendamento(agendamento) {
     const linha = document.createElement("tr");
 
-    linha.innerHTML += `<td></td>`;
+    linha.innerHTML=''
 
-   
-    linha.innerHTML += `<td>${agendamento.cliente}</td>`;
-    linha.innerHTML += `<td>${agendamento.funcionario}</td>`;
-    linha.innerHTML += `<td>${new Date(agendamento.data).toLocaleDateString()}</td>`;
-    linha.innerHTML += `<td>${agendamento.tipo}</td>`;
+    const celulanome = document.createElement('td');
+    celulanome.textContent = agendamento.cliente;
+    linha.appendChild(celulanome)
+    
+    const celulafuncionario = document.createElement('td')
+    celulafuncionario.textContent =agendamento.funcionario
+    linha.appendChild(celulafuncionario)
 
-   
+    const celuladata = document.createElement('td')
+    celuladata.textContent = agendamento.data
+    linha.appendChild(celuladata)
+
+    const celulatipo = document.createElement("td")
+    celulatipo.textContent = agendamento.tipo
+    linha.appendChild(celulatipo)
+
     const celulaBotao = document.createElement("td");
     const botao = document.createElement("button");
     botao.innerHTML = `<i data-lucide="edit"></i>`;

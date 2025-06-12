@@ -1,0 +1,233 @@
+/* Agendamento.css - Theme: Midnight Steel (Versão Final e Corrigida) */
+
+/* --- Variáveis de Cores --- */
+:root {
+    --bg-deep-space: #121822;      /* Fundo principal */
+    --bg-ui-element: #1B263B;      /* Fundo de elementos (tabela, modal) */
+    --border-color: #415A77;       /* Bordas e separadores */
+    --text-primary: #EAEAEA;        /* Cor do texto principal */
+    --text-secondary: #778DA9;      /* Cor do texto secundário */
+    --accent-electric-blue: #4A90E2; /* Cor de destaque (botões, ícones) */
+    --accent-danger-red: #E53E3E;    /* Cor para ações de perigo (excluir) */
+}
+
+/* --- Estilos Gerais --- */
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-deep-space);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* --- Container dos Controles --- */
+.controls-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 1000px;
+    padding: 10px;
+    background-color: var(--bg-ui-element);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+}
+
+.controls-container button {
+    background: none;
+    border: 2px solid var(--accent-electric-blue);
+    color: var(--accent-electric-blue);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.controls-container button:hover {
+    background-color: var(--accent-electric-blue);
+    color: white;
+}
+
+.controls-container #filtro {
+    flex-grow: 1;
+    background-color: var(--bg-deep-space);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* --- Tabela Principal --- */
+#AgendamentoTable {
+    width: 80%;
+    max-width: 1000px;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: var(--bg-ui-element);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#AgendamentoTable th, #AgendamentoTable td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#AgendamentoTable th {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+    font-size: 1.1em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#AgendamentoTable tbody tr:hover {
+    background-color: var(--border-color);
+    transform: scale(1.02);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+#AgendamentoTable td button {
+    background: none;
+    border: none;
+    color: var(--accent-electric-blue);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#AgendamentoTable td button:hover {
+    color: white;
+}
+
+#AgendamentoTable th:last-child, #AgendamentoTable td:last-child {
+    text-align: center;
+}
+
+/* --- Modal --- */
+#modal {
+    background-color: var(--bg-ui-element);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(74, 144, 226, 0.2);
+    width: 80%;
+    max-width: 500px;
+    border: 1px solid var(--accent-electric-blue);
+}
+
+#modal h3 {
+    color: var(--accent-electric-blue);
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+#modal label {
+    display: block;
+    margin-bottom: 15px;
+}
+
+#modal input[type="text"], #modal select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-deep-space);
+    color: var(--text-primary);
+}
+
+#modal input:focus, #modal select:focus {
+    outline: none;
+    border-color: var(--accent-electric-blue);
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+}
+
+/* --- Botões do Modal --- */
+#btn-salvar, #btn-excluir {
+    width: calc(50% - 10px);
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#btn-salvar {
+    background-color: var(--accent-electric-blue);
+    color: white;
+    border: none;
+}
+
+#btn-salvar:hover {
+    opacity: 0.9;
+}
+
+#btn-excluir {
+    background-color: transparent;
+    color: var(--accent-danger-red);
+    border: 2px solid var(--accent-danger-red);
+}
+
+#btn-excluir:hover {
+    background-color: var(--accent-danger-red);
+    color: white;
+}
+
+/* --- Estilização do Calendário (Versão Funcional) --- */
+.date-input-wrapper {
+    margin-top: 5px;
+}
+
+#modal input[type="date"] {
+    color-scheme: dark;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    appearance: auto;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-deep-space);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1em;
+}
+
+#modal input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(58%) sepia(87%) saturate(542%) hue-rotate(172deg) brightness(92%) contrast(87%);
+    cursor: pointer;
+    transition: filter 0.3s;
+}
+
+#modal input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(58%) sepia(87%) saturate(542%) hue-rotate(172deg) brightness(120%) contrast(90%);
+}
+
+#modal input[type="date"]:focus {
+    outline: none;
+    border-color: var(--accent-electric-blue);
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+}
+
+/* --- Ícones Lucide --- */
+.lucide {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+}

@@ -9,7 +9,8 @@ async function buscarAgendamentos() {
             funcionarios.nome AS funcionario, 
             clientes.id AS cliente_id, 
             funcionarios.id AS funcionario_id,
-            agendamentos.data_marcada AS data, 
+            TO_CHAR(data_marcada, 'YYYY-MM-DD') as data,
+            TO_CHAR(data_marcada, 'DD/MM/YY') as data_formatada,
             agendamentos.tipo AS tipo
         FROM "GymControl".agendamentos 
         JOIN "GymControl".clientes ON clientes.id = agendamentos.id_cliente
@@ -31,7 +32,7 @@ async function alterarAgendamento(event, id, id_cliente, id_funcionario, data_ma
     );
     return resultado2.rows;
 }
-
+    
 async function salvarAgendamento(event, id_cliente, id_funcionario, data_marcada, tipo) {
     const resultado = await db.query(
         'INSERT INTO "GymControl".agendamentos(id_cliente, id_funcionario, data_marcada, tipo) VALUES ($1, $2, $3, $4) RETURNING *;',
