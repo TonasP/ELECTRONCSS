@@ -2,6 +2,7 @@
 <html lang="pt-br">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='Agendamento.css' type="text/css" rel="stylesheet">
@@ -46,25 +47,27 @@
         <label>ID: <input type="text" id="Agendamento-id" readonly />
         </label>
         <br>
-        <label for="aluno-nome">Aluno:</label>
-        <select id="aluno-nome" name="aluno">
+        <label for="cliente-nome">Cliente:</label>
+        <select id="cliente-nome" >
             
         </select>
         <br>
-        <label for="professor-nome">Professor:</label>
-        <select id="professor-nome" name="professor">
+        <label for="funcionario-nome">Funcionário:</label>
+        <select id="funcionario-nome">
     
         </select>
         <br>
-        <label for="materia-nome">Matéria:</label>
-        <select id="materia-nome" name="materia">
+        <label for="data" >Data:</label>
+        <input id="data" type="date" >
            
-        </select>
+    </input>
         <br>
-        <label for="avaliacao">Avaliação:</label>
-        <select id="avaliacao" placeholder="avaliacao">
-            <option value="Aprovado">Aprovado</option>
-            <option value="Reprovado">Reprovado</option>
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" placeholder="Tipo">
+            <option value="Aula de Musculação">Aula de Musculação</option>
+            <option value="Consulta Nutricional">Consulta Nutricional</option>
+            <option value="Avaliação Física">Avaliação Física</option>
+            <option value="Aula de Zumba">Aula de Zumba</option>
         </select>
         <br>
         <button id="btn-salvar">
