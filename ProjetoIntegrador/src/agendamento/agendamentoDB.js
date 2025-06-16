@@ -1,7 +1,6 @@
 const db = require('../db');
 
 async function buscarAgendamentos() {
-   
     const result = await db.query(`
         SELECT 
             agendamentos.id,
@@ -10,12 +9,33 @@ async function buscarAgendamentos() {
             clientes.id AS cliente_id, 
             funcionarios.id AS funcionario_id,
             TO_CHAR(data_marcada, 'YYYY-MM-DD') as data,
-            TO_CHAR(data_marcada, 'DD/MM/YY') as data_formatada,
+            TO_CHAR(data_marcada, 'DD/MM/YYYY') as data_formatada,
             agendamentos.tipo AS tipo
         FROM "GymControl".agendamentos 
         JOIN "GymControl".clientes ON clientes.id = agendamentos.id_cliente
         JOIN "GymControl".funcionarios ON funcionarios.id = agendamentos.id_funcionario
+        ORDER BY agendamentos.data_marcada DESC
     `);
+    return result.rows; 
+}
+
+async function filtrarAgendamentos(event, tipoFiltro) {
+    const result = await db.query(`
+        SELECT 
+            agendamentos.id,
+            clientes.nome AS cliente, 
+            funcionarios.nome AS funcionario, 
+            clientes.id AS cliente_id, 
+            funcionarios.id AS funcionario_id,
+            TO_CHAR(data_marcada, 'YYYY-MM-DD') as data,
+            TO_CHAR(data_marcada, 'DD/MM/YYYY') as data_formatada,
+            agendamentos.tipo AS tipo
+        FROM "GymControl".agendamentos 
+        JOIN "GymControl".clientes ON clientes.id = agendamentos.id_cliente
+        JOIN "GymControl".funcionarios ON funcionarios.id = agendamentos.id_funcionario
+        WHERE agendamentos.tipo = $1
+        ORDER BY agendamentos.data_marcada DESC`, [tipoFiltro]
+    );
     return result.rows; 
 }
 
@@ -25,7 +45,6 @@ async function deletarAgendamento(event, agendamentoId) {
 }
 
 async function alterarAgendamento(event, id, id_cliente, id_funcionario, data_marcada, tipo) {
-   
     const resultado2 = await db.query(
         'UPDATE "GymControl".agendamentos SET id_cliente=$2, id_funcionario=$3, data_marcada=$4, tipo=$5 WHERE id = $1',
         [id, id_cliente, id_funcionario, data_marcada, tipo]
@@ -46,4 +65,5 @@ module.exports = {
     deletarAgendamento,
     alterarAgendamento,
     salvarAgendamento,
+    filtrarAgendamentos,
 };

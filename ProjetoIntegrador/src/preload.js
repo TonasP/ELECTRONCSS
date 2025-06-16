@@ -13,6 +13,9 @@ function alterarAgendamento(id, id_cliente, id_funcionario, data_marcada, tipo) 
 function salvarAgendamento(id_cliente, id_funcionario, data_marcada, tipo) {
     return ipcRenderer.invoke('salvar-agendamento', id_cliente, id_funcionario, data_marcada, tipo);
 }
+function filtrarAgendamentos(tipoFiltro){
+    return ipcRenderer.invoke('filtrar-agendamentos', tipoFiltro);
+}
 
 // --- Funções de Clientes ---
 function buscarClientes() {
@@ -91,6 +94,7 @@ contextBridge.exposeInMainWorld('GymAPI', {
     deletarAgendamento: deletarAgendamento,
     alterarAgendamento: alterarAgendamento,
     salvarAgendamento: salvarAgendamento,
+    filtrarAgendamentos: filtrarAgendamentos,
 //----------------------------------------------//
     buscarClientes: buscarClientes,
     deletarCliente: deletarCliente,

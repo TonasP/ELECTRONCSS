@@ -15,6 +15,7 @@ function registrarAgendamentoHandler() {
     ipcMain.handle('deletar-agendamento', agendamentoDB.deletarAgendamento);
     ipcMain.handle('alterar-agendamento', agendamentoDB.alterarAgendamento);
     ipcMain.handle('salvar-agendamento', agendamentoDB.salvarAgendamento);
+    ipcMain.handle('filtrar-agendamentos',agendamentoDB.filtrarAgendamentos);
 }
 
 function registrarClienteHandler() {

@@ -1,164 +1,190 @@
+// agendamento.js (Versão Final com Correção dos Ícones)
 
-const tabelaAgendamentos = document.getElementById('AgendamentosTableDados');
-const modal = document.getElementById('modal');
-const modalIDAgendamento = document.getElementById('Agendamento-id');
+let tabelaAgendamentos, modal, modalIDAgendamento;
+let botaoExcluir, botaoSalvar, botaoLimparDados, botaoFiltrar, botaoLimparFiltro;
+let dropdownClienteEl, dropdownFuncionarioEl, dropdownData, dropdownTipo, dropdownFiltro;
+let choicesCliente = null;
+let choicesFuncionario = null;
 
+document.addEventListener('DOMContentLoaded', init);
 
-const botaoExcluir = document.getElementById('btn-excluir');
-const botaoSalvar = document.getElementById('btn-salvar');
-const botaoIncluir = document.getElementById('btn-incluir');
+async function init() {
+    tabelaAgendamentos = document.getElementById('AgendamentosTableDados');
+    modal = document.getElementById('modal');
+    modalIDAgendamento = document.getElementById('Agendamento-id');
+    botaoExcluir = document.getElementById('btn-excluir');
+    botaoSalvar = document.getElementById('btn-salvar');
+    botaoLimparDados = document.getElementById('btn-limparDados');
+    botaoFiltrar = document.getElementById('btnFiltro');
+    botaoLimparFiltro = document.getElementById('btn-limparFiltro');
+    dropdownClienteEl = document.getElementById('cliente-nome');
+    dropdownFuncionarioEl = document.getElementById('funcionario-nome');
+    dropdownData = document.getElementById('data');
+    dropdownTipo = document.getElementById('tipo');
+    dropdownFiltro = document.getElementById('filtro');
 
-const dropdownCliente = document.getElementById('cliente-nome');
-const dropdownFuncionario = document.getElementById('funcionario-nome');
-const dropdownData = document.getElementById('data');
-const dropdownTipo = document.getElementById('tipo');
+    botaoLimparDados.addEventListener('click', limparDadosModal);
+    botaoSalvar.addEventListener('click', salvarDadosAgendamento);
+    botaoExcluir.addEventListener('click', excluirAgendamento);
+    botaoFiltrar.addEventListener('click', filtrarAgendamentos);
+    botaoLimparFiltro.addEventListener('click', limparFiltro);
+    
+    const choicesConfig = {
+        searchEnabled: true,
+        placeholder: true,
+        itemSelectText: 'Pressionar para selecionar',
+        removeItemButton: true,
+        noResultsText: 'Nenhum resultado encontrado',
+        noChoicesText: 'Carregando...',
+        placeholderValue: 'Selecione ou digite para buscar...'
+    };
+    choicesCliente = new Choices(dropdownClienteEl, choicesConfig);
+    choicesFuncionario = new Choices(dropdownFuncionarioEl, choicesConfig);
 
-
-
-botaoIncluir.addEventListener('click', () => limparDadosModal());
-botaoSalvar.addEventListener('click', salvarDadosAgendamento);
-botaoExcluir.addEventListener('click', excluirAgendamento);
-
-
-function mostrarDetalhes(agendamento) {
-    modalIDAgendamento.value = agendamento.id; 
-    dropdownCliente.value = agendamento.cliente_id;
-    dropdownFuncionario.value = agendamento.funcionario_id;
-    dropdownData.value = agendamento.data
-    dropdownTipo.value = agendamento.tipo;
+    await Promise.all([
+        preencherDropdownClientes(),
+        preencherDropdownFuncionarios()
+    ]);
+    
+    await carregarAgendamentos();
 }
 
+function mostrarDetalhes(agendamento) {
+    modalIDAgendamento.value = agendamento.id;
+    dropdownData.value = agendamento.data;
+    dropdownTipo.value = agendamento.tipo;
+
+    if (choicesCliente) {
+        choicesCliente.setChoiceByValue(String(agendamento.cliente_id));
+    }
+    if (choicesFuncionario) {
+        choicesFuncionario.setChoiceByValue(String(agendamento.funcionario_id));
+    }
+}
 
 function limparDadosModal() {
     modalIDAgendamento.value = '';
-    dropdownCliente.value = '';
-    dropdownFuncionario.value = '';
     dropdownData.value = '';
-    dropdownTipo.value = 'Aula de Musculação'; 
-}
+    dropdownTipo.value = 'Aula de Musculação';
 
-
-async function salvarDadosAgendamento() {
-    const id = modalIDAgendamento.value;
-    const clienteId = dropdownCliente.value;
-    const funcionarioId = dropdownFuncionario.value;
-    const dataMarcada = dropdownData.value;
-    const tipoAtendimento = dropdownTipo.value;
-
-    if (id) {
-        
-        await window.GymAPI.alterarAgendamento(id, clienteId, funcionarioId, dataMarcada, tipoAtendimento);
-    } else {
-       
-        await window.GymAPI.salvarAgendamento(clienteId, funcionarioId, dataMarcada, tipoAtendimento);
+    if (choicesCliente && choicesCliente.getValue()) {
+        choicesCliente.removeActiveItems();
+        choicesCliente.setChoiceByValue('');
     }
-
-    await carregarAgendamentos();
-    limparDadosModal();
-}
-
-async function excluirAgendamento() {
-    const id = modalIDAgendamento.value;
-    if (id) {
-        await window.GymAPI.excluirAgendamentos(id);
-        await carregarAgendamentos();
-        limparDadosModal();
+    if (choicesFuncionario && choicesFuncionario.getValue()) {
+        choicesFuncionario.removeActiveItems();
+        choicesFuncionario.setChoiceByValue('');
     }
 }
-
 
 async function carregarAgendamentos() {
-    const agendamentos = await window.GymAPI.buscarAgendamentos();
-    tabelaAgendamentos.innerHTML = ""; 
-
-    if (!agendamentos || agendamentos.length === 0) {
-        const linha = document.createElement("tr");
-        const celula = document.createElement("td");
-        celula.colSpan = 5;
-        celula.textContent = "Nenhum agendamento encontrado.";
-        linha.appendChild(celula);
-        tabelaAgendamentos.appendChild(linha);
-        return;
+    try {
+        const agendamentos = await window.GymAPI.buscarAgendamentos();
+        tabelaAgendamentos.innerHTML = "";
+        if (!agendamentos || agendamentos.length === 0) {
+            tabelaAgendamentos.innerHTML = '<tr><td colspan="5">Nenhum agendamento encontrado.</td></tr>';
+        } else {
+            agendamentos.forEach(criarLinhaAgendamento);
+        }
+        // Renderiza os ícones após a tabela ser criada/atualizada
+        lucide.createIcons();
+    } catch (error) {
+        console.error("Erro ao carregar agendamentos:", error);
     }
-
-    agendamentos.forEach(criarLinhaAgendamento);
-    lucide.createIcons(); 
 }
-
 
 function criarLinhaAgendamento(agendamento) {
     const linha = document.createElement("tr");
-
-    linha.innerHTML=''
-
-    const celulanome = document.createElement('td');
-    celulanome.textContent = agendamento.cliente;
-    linha.appendChild(celulanome)
-    
-    const celulafuncionario = document.createElement('td')
-    celulafuncionario.textContent =agendamento.funcionario
-    linha.appendChild(celulafuncionario)
-
-    const celuladata = document.createElement('td')
-    celuladata.textContent = agendamento.data
-    linha.appendChild(celuladata)
-
-    const celulatipo = document.createElement("td")
-    celulatipo.textContent = agendamento.tipo
-    linha.appendChild(celulatipo)
-
-    const celulaBotao = document.createElement("td");
-    const botao = document.createElement("button");
-    botao.innerHTML = `<i data-lucide="edit"></i>`;
-    botao.addEventListener("click", () => mostrarDetalhes(agendamento));
-    celulaBotao.appendChild(botao);
-    linha.appendChild(celulaBotao);
-
+    linha.innerHTML = `
+        <td>${agendamento.cliente}</td>
+        <td>${agendamento.funcionario}</td>
+        <td>${agendamento.data_formatada}</td>
+        <td>${agendamento.tipo}</td>
+        <td><button class="edit-btn"><i data-lucide="edit"></i></button></td>
+    `;
+    linha.querySelector('.edit-btn').addEventListener('click', () => mostrarDetalhes(agendamento));
     tabelaAgendamentos.appendChild(linha);
 }
 
-/**
- * Funções para preencher os dropdowns de clientes e funcionários.
- * NOTA: Elas dependem de funções 'buscarClientes' e 'buscarFuncionarios' que precisam ser criadas no backend.
- */
 async function preencherDropdownClientes() {
-     const clientes = await window.GymAPI.buscarClientes(); // Exemplo
-     dropdownCliente.innerHTML = "";
-     clientes.forEach(cliente => {
-         const option = document.createElement("option");
-        option.value = cliente.id;
-         option.textContent = cliente.nome;
-       dropdownCliente.appendChild(option);
-     });
+    try {
+        const clientes = await window.GymAPI.buscarClientes();
+        const clienteChoices = clientes.map(c => ({ value: String(c.id), label: c.nome }));
+        choicesCliente.setChoices(clienteChoices, 'value', 'label', true);
+    } catch (error) {
+        console.error("FALHA AO BUSCAR CLIENTES:", error);
+    }
 }
 
 async function preencherDropdownFuncionarios() {
-     const funcionarios = await window.GymAPI.buscarFuncionarios(); // Exemplo
-     dropdownFuncionario.innerHTML = "";
-     funcionarios.forEach(funcionario => {
-         const option = document.createElement("option");
-         option.value = funcionario.id;
-         option.textContent = funcionario.nome;
-         dropdownFuncionario.appendChild(option);
-     });
+    try {
+        const funcionarios = await window.GymAPI.buscarFuncionarios();
+        const funcionarioChoices = funcionarios.map(f => ({ value: String(f.id), label: f.nome }));
+        choicesFuncionario.setChoices(funcionarioChoices, 'value', 'label', true);
+    } catch (error) {
+        console.error("FALHA AO BUSCAR FUNCIONÁRIOS:", error);
+    }
 }
 
-/**
- * Função de inicialização
- */
-async function init() {
-    // Ícones dos botões principais
-    document.getElementById('iIncluir')?.setAttribute('data-lucide', 'plus');
-    document.getElementById('iSalvar')?.setAttribute('data-lucide', 'save');
-    document.getElementById('iExcluir')?.setAttribute('data-lucide', 'trash-2');
-    document.getElementById('IFiltrar')?.setAttribute('data-lucide', 'filter');
-    document.getElementById('IlimparFiltro')?.setAttribute('data-lucide', 'rotate-cw');
-    lucide.createIcons();
+async function salvarDadosAgendamento() {
+    try {
+        const id = modalIDAgendamento.value;
+        const clienteId = choicesCliente.getValue(true);
+        const funcionarioId = choicesFuncionario.getValue(true);
+        const dataMarcada = dropdownData.value;
+        const tipoAtendimento = dropdownTipo.value;
 
+        if (!clienteId || !funcionarioId || !dataMarcada) {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        const promessa = id 
+            ? window.GymAPI.alterarAgendamento(id, clienteId, funcionarioId, dataMarcada, tipoAtendimento)
+            : window.GymAPI.salvarAgendamento(clienteId, funcionarioId, dataMarcada, tipoAtendimento);
+
+        await promessa;
+        await carregarAgendamentos();
+        limparDadosModal();
+    } catch (error) {
+        console.error("Erro ao salvar agendamento:", error);
+    }
+}
+
+async function excluirAgendamento() {
+    try {
+        const id = modalIDAgendamento.value;
+        if (id) {
+            await window.GymAPI.deletarAgendamento(id);
+            await carregarAgendamentos();
+            limparDadosModal();
+        }
+    } catch (error) {
+        console.error("Erro ao excluir agendamento:", error);
+    }
+}
+
+async function filtrarAgendamentos() {
+    try {
+        const filtro = dropdownFiltro.value;
+        if (filtro == 0) {
+            await carregarAgendamentos();
+            return;
+        }
+        const filtroTipo = await window.GymAPI.filtrarAgendamentos(filtro);
+        tabelaAgendamentos.innerHTML = '';
+        if (!filtroTipo || filtroTipo.length === 0) {
+            tabelaAgendamentos.innerHTML = '<tr><td colspan="5">Nenhum agendamento encontrado para este tipo.</td></tr>';
+        } else {
+            filtroTipo.forEach(criarLinhaAgendamento);
+        }
+        lucide.createIcons();
+    } catch (error) {
+        console.error("Erro ao filtrar agendamentos:", error);
+    }
+}
+
+async function limparFiltro() {
+    dropdownFiltro.value = 0;
     await carregarAgendamentos();
-    await preencherDropdownClientes(); // Descomente quando a função for criada no backend
-    await preencherDropdownFuncionarios(); // Descomente quando a função for criada no backend
 }
-
-// Inicia a aplicação
-init();

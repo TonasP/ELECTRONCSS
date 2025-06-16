@@ -4,84 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='Agendamento.css' type="text/css" rel="stylesheet">
+    <link href="agendamento.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/libs/choices/choices.min.css" />
     <title>Lista de Agendamentos</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-
-    <!-- Container para os botões e filtro, acima da tabela -->
     <div class="controls-container">
-        <button id='btn-incluir' title="Incluir Novo Agendamento">
-            <icon id="iIncluir"></icon>
-        </button>
-        <button id="btn-limparFiltro" title="Limpar Filtro">
-            <icon id="IlimparFiltro"></icon>
-        </button>
-        <select id="filtro" name="Filtro">
-            <!-- As opções serão preenchidas via JavaScript -->
+        <!-- Ícones definidos diretamente no HTML -->
+        <button id="btn-limparFiltro" title="Limpar Filtro"><i data-lucide="rotate-cw"></i></button>
+        <select id="filtro" aria-placeholder="Filtrar os tipos de agendamentos">
+            <option value="0">Todos os tipos</option>
+            <option value="Aula de Musculação">Aula de Musculação</option>
+            <option value="Consulta Nutricional">Consulta Nutricional</option>
+            <option value="Avaliação Física">Avaliação Física</option>
+            <option value="Aula de Zumba">Aula de Zumba</option>
         </select>
-        <button id="btnFiltro" title="Aplicar Filtro">
-            <icon id='IFiltrar'></icon>
-        </button>
+        <button id="btnFiltro" title="Aplicar Filtro"><i data-lucide="filter"></i></button>
     </div>
 
-    <!-- Tabela com estrutura limpa e cabeçalhos corretos -->
     <table id="AgendamentoTable">
         <thead>
             <tr>
-                <th>Cliente</th>
-                <th>Funcionário</th>
-                <th>Data Marcada</th>
-                <th>Tipo de Atendimento</th>
-                <th>Editar</th>
+                <th>Cliente</th><th>Funcionário</th><th>Data Marcada</th><th>Tipo de Atendimento</th><th>Editar</th>
             </tr>
         </thead>
-        <tbody id="AgendamentosTableDados">
-            <!-- As linhas da tabela serão preenchidas via JavaScript -->
-        </tbody>
+        <tbody id="AgendamentosTableDados"></tbody>
     </table>
 
-
-    <!-- Modal com a estrutura HTML corrigida para o campo de data -->
     <div id="modal">
         <h3>Edite os dados do Agendamento:</h3>
-        <label>ID: <input type="text" id="Agendamento-id" readonly />
-        </label>
-        <br>
+        <button id='btn-limparDados' title="Limpar dados do formulário"><i data-lucide="brush"></i></button>
+        <label>ID: <input type="text" id="Agendamento-id" readonly /></label><br>
         <label for="cliente-nome">Cliente:</label>
-        <select id="cliente-nome">
-            <!-- As opções serão preenchidas via JavaScript -->
-        </select>
-        <br>
+        <select id="cliente-nome"></select><br>
         <label for="funcionario-nome">Funcionário:</label>
-        <select id="funcionario-nome">
-            <!-- As opções serão preenchidas via JavaScript -->
-        </select>
-        <br>
+        <select id="funcionario-nome"></select><br>
         <label for="data">Data:</label>
-        <div class="date-input-wrapper">
-            <input id="data" type="date">
-        </div>
-        <br>
+        <div class="date-input-wrapper"><input id="data" type="date"></div><br>
         <label for="tipo">Tipo:</label>
         <select id="tipo" placeholder="Tipo">
             <option value="Aula de Musculação">Aula de Musculação</option>
             <option value="Consulta Nutricional">Consulta Nutricional</option>
             <option value="Avaliação Física">Avaliação Física</option>
             <option value="Aula de Zumba">Aula de Zumba</option>
-        </select>
-        <br>
-        <button id="btn-salvar">
-            <icon id='iSalvar'></icon>
-        </button>
-        <button id="btn-excluir">
-            <icon id='iExcluir'></icon>
-        </button>
+        </select><br>
+        <button id="btn-salvar"><i data-lucide="save"></i></button>
+        <button id="btn-excluir"><i data-lucide="trash-2"></i></button>
     </div>
 
-    <!-- Script JS -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../assets/libs/choices/choices.min.js"></script>
     <script src="agendamento.js"></script>
 </body>
 

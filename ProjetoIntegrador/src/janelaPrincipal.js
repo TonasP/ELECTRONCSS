@@ -10,10 +10,11 @@ function createMainWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
+    
   });
 
   janelaPrincipal.loadFile(path.join(__dirname, 'agendamento', 'agendamento.html'));
-
+ 
   janelaPrincipal.on('closed', () => {
     janelaPrincipal = null;
   });

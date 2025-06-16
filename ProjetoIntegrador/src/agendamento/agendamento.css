@@ -1,17 +1,13 @@
-/* Agendamento.css - Theme: Midnight Steel (Versão Final e Corrigida) */
-
-/* --- Variáveis de Cores --- */
 :root {
-    --bg-deep-space: #121822;      /* Fundo principal */
-    --bg-ui-element: #1B263B;      /* Fundo de elementos (tabela, modal) */
-    --border-color: #415A77;       /* Bordas e separadores */
-    --text-primary: #EAEAEA;        /* Cor do texto principal */
-    --text-secondary: #778DA9;      /* Cor do texto secundário */
-    --accent-electric-blue: #4A90E2; /* Cor de destaque (botões, ícones) */
-    --accent-danger-red: #E53E3E;    /* Cor para ações de perigo (excluir) */
+    --bg-deep-space: #121822;
+    --bg-ui-element: #1B263B;
+    --border-color: #415A77;
+    --text-primary: #EAEAEA;
+    --text-secondary: #778DA9;
+    --accent-electric-blue: #4A90E2;
+    --accent-danger-red: #E53E3E;
 }
 
-/* --- Estilos Gerais --- */
 body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     background-color: var(--bg-deep-space);
@@ -25,7 +21,6 @@ body {
     min-height: 100vh;
 }
 
-/* --- Container dos Controles --- */
 .controls-container {
     display: flex;
     gap: 15px;
@@ -40,7 +35,7 @@ body {
     border: 1px solid var(--border-color);
 }
 
-.controls-container button {
+.controls-container button, #btn-limparDados {
     background: none;
     border: 2px solid var(--accent-electric-blue);
     color: var(--accent-electric-blue);
@@ -50,7 +45,7 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.controls-container button:hover {
+.controls-container button:hover, #btn-limparDados:hover {
     background-color: var(--accent-electric-blue);
     color: white;
 }
@@ -64,7 +59,6 @@ body {
     border-radius: 5px;
 }
 
-/* --- Tabela Principal --- */
 #AgendamentoTable {
     width: 80%;
     max-width: 1000px;
@@ -113,7 +107,6 @@ body {
     text-align: center;
 }
 
-/* --- Modal --- */
 #modal {
     background-color: var(--bg-ui-element);
     padding: 30px;
@@ -152,7 +145,6 @@ body {
     box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
 }
 
-/* --- Botões do Modal --- */
 #btn-salvar, #btn-excluir {
     width: calc(50% - 10px);
     padding: 12px;
@@ -173,9 +165,7 @@ body {
     border: none;
 }
 
-#btn-salvar:hover {
-    opacity: 0.9;
-}
+#btn-salvar:hover { opacity: 0.9; }
 
 #btn-excluir {
     background-color: transparent;
@@ -188,15 +178,10 @@ body {
     color: white;
 }
 
-/* --- Estilização do Calendário (Versão Funcional) --- */
-.date-input-wrapper {
-    margin-top: 5px;
-}
+.date-input-wrapper { margin-top: 5px; }
 
 #modal input[type="date"] {
     color-scheme: dark;
-    -webkit-appearance: auto;
-    -moz-appearance: auto;
     appearance: auto;
     box-sizing: border-box;
     width: 100%;
@@ -225,9 +210,81 @@ body {
     box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
 }
 
-/* --- Ícones Lucide --- */
-.lucide {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2;
-}
+.lucide { width: 20px; height: 20px; stroke-width: 2; }
+
+/* --- ADICIONE ESTE NOVO BLOCO AO FINAL DO SEU CSS --- */
+
+/* --- Estilização para Choices.js com Alta Especificidade --- */
+
+/* O container principal do dropdown, dentro do modal */
+#modal .choices {
+    margin-top: 5px;
+    margin-bottom: 24px;
+  }
+  
+  /* A caixa que parece um input, dentro do modal */
+  #modal .choices__inner {
+    background-color: var(--bg-deep-space);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 7.5px 7.5px 3.75px;
+    min-height: 44px;
+    border-radius: 5px;
+    transition: border-color 0.2s;
+  }
+  
+  /* Estilo do container quando o dropdown está aberto, dentro do modal */
+  #modal .choices[data-type*="select-one"].is-open .choices__inner {
+    border-radius: 5px 5px 0 0;
+    border-color: var(--accent-electric-blue);
+  }
+  
+  /* Cor do texto do item selecionado, dentro do modal */
+  #modal .choices__list--single .choices__item {
+      color: var(--text-primary);
+  }
+  
+  /* A lista de opções que aparece, dentro do modal */
+  #modal .choices__list--dropdown, 
+  #modal .choices__list[aria-expanded] {
+    background-color: var(--bg-ui-element);
+    border: 1px solid var(--accent-electric-blue);
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+  }
+  
+  /* Estilo de cada item na lista, dentro do modal */
+  #modal .choices__item--choice {
+    color: var(--text-primary);
+    padding: 10px;
+  }
+  
+  /* Estilo do item da lista em hover (highlight), dentro do modal */
+  #modal .choices__item--choice.is-highlighted {
+    background-color: var(--accent-electric-blue);
+    color: var(--bg-deep-space);
+  }
+  
+  /* Cor do placeholder, dentro do modal */
+  #modal .choices__list--single .choices__placeholder {
+      color: var(--text-secondary);
+  }
+  
+  /* Campo de busca, dentro do modal */
+  #modal .choices__input {
+      background-color: var(--bg-deep-space);
+      color: var(--text-primary);
+      border: none;
+      padding: 10px;
+  }
+  
+  /* Botão de remover seleção 'x', dentro do modal */
+  #modal .choices__button {
+    filter: invert(80%);
+    transition: filter 0.2s;
+    margin-right: 5px;
+  }
+  
+  #modal .choices__button:hover {
+    filter: invert(60%) sepia(100%) saturate(600%) hue-rotate(170deg);
+  }
