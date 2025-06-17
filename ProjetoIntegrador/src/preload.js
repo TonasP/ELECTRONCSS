@@ -121,3 +121,17 @@ contextBridge.exposeInMainWorld('GymAPI', {
     alterarServico: alterarServico,
     salvarServico: salvarServico,
 });
+
+function abrirAgendamento(){
+    ipcRenderer.send('abrir-agendamento')
+}
+function abrirCliente(){
+    ipcRenderer.send('abrir-cliente')
+}
+contextBridge.exposeInMainWorld('janelaGymAPI',
+    {
+        abrirAgendamento: abrirAgendamento,
+        abrirCliente:abrirCliente,
+    
+    
+    })

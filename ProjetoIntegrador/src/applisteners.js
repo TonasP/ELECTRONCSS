@@ -7,6 +7,7 @@ const funcionarioDB = require('./funcionario/funcionarioDB');
 const pagamentosDB = require('./pagamentos/pagamentosDB');
 const planoDB = require('./plano/planoDB');
 const servicoDB = require('./servico/servicoDB');
+const janelas = require('./janelasModal')
 
 // --- Handlers por Entidade ---
 
@@ -53,6 +54,12 @@ function registrarServicoHandler() {
     ipcMain.handle('salvar-servico', servicoDB.salvarServico);
 }
 
+function registrarJanelas() {
+    ipcMain.on('abrir-agendamento', janelas.modalAbrirAgendamentos)
+    ipcMain.on('abrir-cliente', janelas.modalAbrirClientes)
+    
+}
+
 // --- Função Principal para Registrar Todos os Listeners ---
 
 function registrarListeners() {
@@ -62,6 +69,7 @@ function registrarListeners() {
     registrarPagamentoHandler();
     registrarPlanoHandler();
     registrarServicoHandler();
+    registrarJanelas()
 }
 
 module.exports = {

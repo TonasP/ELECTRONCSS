@@ -3,7 +3,10 @@ const { ipcMain } = require('electron')
 
 async function buscarClientes() {
 
-    const resultado = await db.query('SELECT * FROM"GymControl".clientes order by id')
+    const resultado = await db.query(`SELECT .
+        clientes.nome as nome, clientes.cpf as cpf, planos.nome as plano, clientes.numero_celular as numero, clientes.email as email FROM "GymControl".clientes
+        join "GymControl".planos 
+        on planos.id = clientes.plano_id`)
 
     return resultado.rows;
 }

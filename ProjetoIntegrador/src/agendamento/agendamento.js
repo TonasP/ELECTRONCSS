@@ -12,11 +12,15 @@ async function init() {
     tabelaAgendamentos = document.getElementById('AgendamentosTableDados');
     modal = document.getElementById('modal');
     modalIDAgendamento = document.getElementById('Agendamento-id');
+
+    
     botaoExcluir = document.getElementById('btn-excluir');
     botaoSalvar = document.getElementById('btn-salvar');
     botaoLimparDados = document.getElementById('btn-limparDados');
     botaoFiltrar = document.getElementById('btnFiltro');
     botaoLimparFiltro = document.getElementById('btn-limparFiltro');
+
+
     dropdownClienteEl = document.getElementById('cliente-nome');
     dropdownFuncionarioEl = document.getElementById('funcionario-nome');
     dropdownData = document.getElementById('data');
