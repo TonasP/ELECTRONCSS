@@ -24,8 +24,8 @@ function buscarClientes() {
 function deletarCliente(id) {
     return ipcRenderer.invoke('deletar-cliente', id);
 }
-function alterarCliente(id, nome, cpf, data_nascimento, plano_id, numero_celular, email) {
-    return ipcRenderer.invoke('alterar-cliente', id, nome, cpf, data_nascimento, plano_id, numero_celular, email);
+function alterarCliente( nome, cpf, data_nascimento, plano_id, numero_celular, email, id) {
+    return ipcRenderer.invoke('alterar-cliente', nome, cpf, data_nascimento, plano_id, numero_celular, email,id);
 }
 function salvarCliente(nome, cpf, data_nascimento, plano_id, numero_celular, email) {
     return ipcRenderer.invoke('salvar-cliente', nome, cpf, data_nascimento, plano_id, numero_celular, email);

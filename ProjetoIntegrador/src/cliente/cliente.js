@@ -1,130 +1,146 @@
+const tabelaCliente = document.getElementById('clienteTableDados');
 
-const tabelacliente = document.getElementById('clientesTableDados');
-
-const modalNomecliente = document.getElementById('cliente-nome');
-const modalMatriculacliente = document.getElementById('cliente-cpf');
-const modalIDcliente = document.getElementById('cliente-id');
-const modalPlanocliente= document.getElementById('cliente-plano');
-const modalNumerocliente = document.getElementById("cliente-numero");
-const modalEmailcliente= document.getElementById('cliente-email')
+// ALTERAÇÃO: Adicionada referência para o novo campo de data
+const modalNascimentoCliente = document.getElementById('cliente-nascimento');
+const modalNomeCliente = document.getElementById('cliente-nome');
+const modalCpfCliente = document.getElementById('cliente-cpf');
+const modalIDCliente = document.getElementById('cliente-id');
+const modalPlanoCliente = document.getElementById('cliente-plano');
+const modalNumeroCliente = document.getElementById("cliente-numero");
+const modalEmailCliente = document.getElementById('cliente-email')
 
 const botaoExcluir = document.getElementById('btn-excluir');
 const botaoSalvar = document.getElementById('btn-salvar');
-const botaoIncluir = document.getElementById('btn-incluir');
-botaoIncluir.addEventListener('click', limparDados)
+const botaoLimpar = document.getElementById('btn-limpar'); 
+botaoLimpar.addEventListener('click', limparDados);
 botaoSalvar.addEventListener('click', funcaoSalvar)
-botaoExcluir.addEventListener('click', excluircliente)
+botaoExcluir.addEventListener('click', excluirCliente)
 
+// ALTERAÇÃO: Adicionado 'dataNascimento' à função e à lógica
+function mostrarDetalhes(id, nome, cpf, plano_id, numero, email, dataNascimento) {
+    modalIDCliente.value = id
+    modalNomeCliente.value = nome
+    modalCpfCliente.value = cpf
+    modalPlanoCliente.value = plano_id
+    modalNumeroCliente.value = numero
+    modalEmailCliente.value = email
 
-
-
-function mostrarDetalhes(nome, matricula, id) {
-    modalIDcliente.value = id;
-    modalMatriculacliente.value = matricula;
-    modalNomecliente.value = nome;
+    // O input type="date" espera o formato 'AAAA-MM-DD'
+    if (dataNascimento) {
+        modalNascimentoCliente.value = new Date(dataNascimento).toISOString().split('T')[0];
+    } else {
+        modalNascimentoCliente.value = '';
+    }
 }
+
 function limparDados() {
-    mostrarDetalhes('', '', '')
-
+    mostrarDetalhes('', '', '', '', '', '', '')
 }
+
 async function funcaoSalvar() {
-    clienteNome = modalNomecliente.value
-    clienteMatricula = modalMatriculacliente.value
-    if (modalIDcliente.value === '') {
-        if (clienteNome === '' || clienteMatricula === '') {
+    const ClienteNome = modalNomeCliente.value
+    const ClienteCpf = modalCpfCliente.value
+    const ClientePlano = modalPlanoCliente.value
+    const ClienteNumero = modalNumeroCliente.value
+    const ClienteEmail = modalEmailCliente.value
+    const ClienteNascimento = modalNascimentoCliente.value
+
+    if (modalIDCliente.value === '') {
+        if (ClienteNome === '' || ClienteCpf === '' || ClientePlano === '' || ClienteNascimento === '') {
+            alert("Preencha todos os dados")
             return
         }
-        await window.senacAPI.salvarcliente(clienteNome, clienteMatricula)
-        carregarclientes();
-        mostrarDetalhes('', '', '')
+        await window.GymAPI.salvarCliente(ClienteNome, ClienteCpf, ClienteNascimento, ClientePlano, ClienteNumero, ClienteEmail)
+        carregarClientes();
+        limparDados()
+        return
+    } else {
+        await alterarCliente()
+        carregarClientes();
+        limparDados()
         return
     }
-    else {
+}
 
-        await alterarcliente()
-        carregarclientes();
-        mostrarDetalhes('', '', '')
-        return
+async function alterarCliente() {
+    const ClienteId = modalIDCliente.value
+    const ClienteNome = modalNomeCliente.value
+    const ClienteCpf = modalCpfCliente.value
+    const ClientePlano = modalPlanoCliente.value
+    const ClienteNumero = modalNumeroCliente.value
+    const ClienteEmail = modalEmailCliente.value
+    const ClienteNascimento = modalNascimentoCliente.value
 
+   
+    const retorno = await window.GymAPI.alterarCliente(ClienteNome, ClienteCpf, ClienteNascimento, ClientePlano, ClienteNumero, ClienteEmail, ClienteId);
+
+    carregarClientes();
+    limparDados()
+}
+
+async function excluirCliente() {
+    const pID = modalIDCliente.value;
+    const retorno = await window.GymAPI.deletarCliente(pID);
+    carregarClientes();
+    limparDados()
+}
+
+
+async function carregarClientes() {
+    const listaClientes = await window.GymAPI.buscarClientes();
+    tabelaCliente.innerHTML = "";
+    listaClientes.forEach(criarLinhaCliente)
+    if (!listaClientes.length > 0) {
+        tabelaCliente.textContent = "sem dados"
     }
-
+    lucide.createIcons();
 }
 
-async function alterarcliente() {
-    const pID = modalIDcliente.value;
-    const pNome = modalNomecliente.value;
-    const pMatricula = modalMatriculacliente.value;
-
-
-
-    const retorno = await window.senacAPI.alterarcliente(pNome, pMatricula, pID);
-
-    carregarclientes();
-    mostrarDetalhes("", "", "");
-}
-
-async function excluircliente() {
-    const pID = modalIDcliente.value;
-
-
-    const retorno = await window.senacAPI.excluirclientes(pID);
-
-
-    //após deleção atualiza a lista de clientes
-
-    carregarclientes();
-    mostrarDetalhes('', '', '')
-}
-
-
-async function carregarclientes() {
-
-
-    const listaclientes = await window.senacAPI.buscarclientes();
-    tabelacliente.innerHTML = "";
-
-    console.log(listaclientes)
-    listaclientes.forEach(criarLinhacliente)
-
-    if (!listaclientes.length > 0) {
-
-        tabelacliente.textContent = "sem dados"
-    }
-
-    lucide.createIcons(); // renderiza os ícones do Lucide
-
-}
-
-function criarLinhacliente(cliente) {
-    //paragrafo.textContent = paragrafo.textContent + cliente.nome
-
-    //linha 
+function criarLinhaCliente(Cliente) {
     const linha = document.createElement("tr");
 
-    //nome
     const celulanome = document.createElement("td");
-    celulanome.textContent = cliente.nome;
+    celulanome.textContent = Cliente.nome;
     linha.appendChild(celulanome);
 
-    //matricula
-    const celulaMatricula = document.createElement("td");
-    celulaMatricula.textContent = cliente.matricula;
-    linha.appendChild(celulaMatricula);
+    const celulaCpf = document.createElement("td");
+    celulaCpf.textContent = Cliente.cpf;
+    linha.appendChild(celulaCpf);
 
-    //botao de modificar
+    const celulaPlano = document.createElement("td")
+    // Assumindo que a API precisa fazer um JOIN para buscar o nome do plano
+    celulaPlano.textContent = Cliente.plano// Use a propriedade correta (ex: 'plano_nome')
+    linha.appendChild(celulaPlano)
+
+    const celulaNumero = document.createElement("td")
+    celulaNumero.textContent = Cliente.numero
+    linha.appendChild(celulaNumero)
+
+    const celulaEmail = document.createElement("td")
+    celulaEmail.textContent = Cliente.email
+    linha.appendChild(celulaEmail)
+
+    // ALTERAÇÃO: Cria e formata a célula da data de nascimento
+    const celulaNascimento = document.createElement("td");
+    // Formata a data para o padrão brasileiro (DD/MM/AAAA)
+    celulaNascimento.textContent = new Date(Cliente.data_nascimento).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    linha.appendChild(celulaNascimento);
+
     const celulaBotao = document.createElement("td");
     const botao = document.createElement("button");
     botao.addEventListener("click",
-        function () { mostrarDetalhes(cliente.nome, cliente.matricula, cliente.id) }
+        // ALTERAÇÃO: Passa o Cliente.data_nascimento para a função
+        function () {
+            mostrarDetalhes(Cliente.id, Cliente.nome, Cliente.cpf, Cliente.plano_id, Cliente.numero, Cliente.email, Cliente.data_nascimento)
+        }
     );
-
 
     const icone = document.createElement("i")
     icone.setAttribute("data-lucide", "edit");
     botao.appendChild(icone);
 
-    const iconeIncluir = document.getElementById('iIncluir')
-    iconeIncluir.setAttribute('data-lucide', 'plus')
+    const iconeLimpar = document.getElementById('iLimpar');
+    iconeLimpar.setAttribute('data-lucide', 'eraser');
     const iconeSalvar = document.getElementById('iSalvar')
     iconeSalvar.setAttribute('data-lucide', 'save-all')
     const iconeExcluir = document.getElementById('iExcluir')
@@ -133,9 +149,30 @@ function criarLinhacliente(cliente) {
     celulaBotao.appendChild(botao);
     linha.appendChild(celulaBotao);
 
-
-    //final adiciono a linha criada com matricula,nome e botao à tabela
-    tabelacliente.appendChild(linha);
-
+    tabelaCliente.appendChild(linha);
 }
-carregarclientes()
+
+async function dropdownPlanos() {
+    const plano = await window.GymAPI.buscarPlanos();
+    modalPlanoCliente.innerHTML = "";
+
+    // Adiciona uma opção inicial "Selecione"
+    const optionDefault = document.createElement("option");
+    optionDefault.value = "";
+    optionDefault.textContent = "Selecione um plano";
+    modalPlanoCliente.appendChild(optionDefault);
+
+    plano.forEach(plano => {
+        const option = document.createElement("option");
+        option.value = plano.id;
+        option.textContent = plano.nome;
+        modalPlanoCliente.appendChild(option);
+    });
+}
+
+function init() {
+    carregarClientes(),
+    dropdownPlanos()
+}
+
+init()
