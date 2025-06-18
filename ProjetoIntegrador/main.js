@@ -1,23 +1,27 @@
 const { app, BrowserWindow } = require('electron');
-const { createMainWindow } = require('./src/janelaPrincipal');
-const { registrarListeners } = require('./src/applisteners');
-require('electron-reload')(__dirname, {
-  electron: require(`${__dirname}/node_modules/electron`)
-});
+const path = require('path');
+const {createLoginWindow} = require('./src/janelaPrincipal');
 
-app.whenReady().then(() => {
-  createMainWindow();
+const {createMainWindow} = require('./src/janelaPrincipal');
+const{registrarListeners} = require('./src/APPListeners');
+
+
+
+app.whenReady().then(function () {
+ 
+  //createMainWindow();
+  createLoginWindow();
   registrarListeners();
 
-  app.on('activate', () => {
+  app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) {
       createMainWindow();
     }
   });
-});
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+}
+);
+
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') app.quit();
 });
